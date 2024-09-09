@@ -83,12 +83,7 @@ def non_blocking_func(num):
         logger.info(f"num: {num}, thread id: {threading.current_thread().ident}, acquired: {lock.is_acquired()}")
         if lock.is_acquired():
             time.sleep(2)
-            release_succeed = lock.release()
-            if release_succeed:
-                pass 
-            else:
-                # keepalive没有按预期的那样正常续期
-                pass 
+            lock.release() 
     except Exception:
         logger.error(traceback.format_exc())
 
