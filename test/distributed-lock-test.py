@@ -63,7 +63,14 @@ def blocking_func(num):
             time.sleep(10)
 
             timer.cancel()
-            lock.release()
+            release_succeed = lock.release()
+            if release_succeed:
+                pass 
+            else:
+                # keepalive没有按预期的那样正常续期
+                pass 
+
+            
 
     except Exception as e:
         logger.error(traceback.format_exc())
@@ -76,8 +83,12 @@ def non_blocking_func(num):
         logger.info(f"num: {num}, thread id: {threading.current_thread().ident}, acquired: {lock.is_acquired()}")
         if lock.is_acquired():
             time.sleep(2)
-            lock.release()
-            
+            release_succeed = lock.release()
+            if release_succeed:
+                pass 
+            else:
+                # keepalive没有按预期的那样正常续期
+                pass 
     except Exception:
         logger.error(traceback.format_exc())
 
