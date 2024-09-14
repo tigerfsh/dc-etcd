@@ -47,11 +47,10 @@ def blocking_func(num):
         lock = etcd.lock('my-blocking-lock', ttl=LOCK_TTL)
 
         def keepalive():
-            while True:
-                logger.info(lock.lease.remaining_ttl)
-                time.sleep(1)
-                if lock.lease.remaining_ttl < LOCK_TTL/3:
-                    lock.refresh()
+            logger.info(lock.lease.remaining_ttl)
+            # time.sleep(1)
+            if lock.lease.remaining_ttl < LOCK_TTL/3:
+                lock.refresh()
 
         lock.acquire(timeout=None)
         logger.info(f"num: {num}, thread id: {threading.current_thread().ident}, acquired: {lock.is_acquired()}")
